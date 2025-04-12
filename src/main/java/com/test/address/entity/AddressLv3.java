@@ -9,6 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "address_lv3")
 public class AddressLv3 {
 
     @Id

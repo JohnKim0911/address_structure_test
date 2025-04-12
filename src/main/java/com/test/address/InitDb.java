@@ -8,6 +8,7 @@ import com.test.address.entity.Member;
 import com.test.address.repository.AddressLv1Repository;
 import com.test.address.repository.AddressLv2Repository;
 import com.test.address.repository.AddressLv3Repository;
+import com.test.address.repository.MemberRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,8 @@ public class InitDb {
         initService.initAddress1();
         initService.initAddress2();
         initService.initMembers();
+
+        initService.logMemberList();
     }
 
     @Component
@@ -37,9 +40,12 @@ public class InitDb {
     static class InitService {
 
         private final EntityManager em;
+
         private final AddressLv1Repository addressLv1Repository;
         private final AddressLv2Repository addressLv2Repository;
         private final AddressLv3Repository addressLv3Repository;
+
+        private final MemberRepository memberRepository;
 
         /**
          *  "서울특별시": ["종로구", "중구", "용산구"]
@@ -124,6 +130,13 @@ public class InitDb {
 
             Member member = new Member(name, lv1, lv2, lv3, detailAddress);
             em.persist(member);
+        }
+
+        public void logMemberList() {
+            List<Member> memberList = memberRepository.findAll();
+            for (Member member : memberList) {
+                log.info("{}.{}: {}", member.getId(), member.getName(), member.getFullAddress());
+            }
         }
     }
 }

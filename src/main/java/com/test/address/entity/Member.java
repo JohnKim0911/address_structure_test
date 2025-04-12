@@ -30,7 +30,6 @@ public class Member {
     private AddressLv3 addressLv3;
 
     private String detailAddress;
-    private String fullAddress;
 
     public Member(String name, AddressLv1 addressLv1, AddressLv2 addressLv2, AddressLv3 addressLv3, String detailAddress) {
         this.name = name;
@@ -38,10 +37,25 @@ public class Member {
         this.addressLv2 = addressLv2;
         this.addressLv3 = addressLv3;
         this.detailAddress = detailAddress;
-        this.fullAddress = addressLv1.getName() + " " + addressLv2.getName();
-        if (addressLv3 != null) {
-            this.fullAddress += " " + addressLv3.getName();
-        }
-        this.fullAddress += " " + detailAddress;
     }
+
+    public String getFullAddress() {
+        StringBuilder sb = new StringBuilder();
+
+        if (addressLv1 != null) {
+            sb.append(addressLv1.getName()).append(" ");
+        }
+        if (addressLv2 != null) {
+            sb.append(addressLv2.getName()).append(" ");
+        }
+        if (addressLv3 != null) {
+            sb.append(addressLv3.getName()).append(" ");
+        }
+        if (detailAddress != null) {
+            sb.append(detailAddress);
+        }
+
+        return sb.toString().trim();
+    }
+
 }
