@@ -13,7 +13,8 @@
 1개에 테이블에 모든 주소 넣어서 관리함.
 
 - 3개 계층을 `depth 1,2,3`로 구분.
-- `parent_id`를 통해 `depth 3 -> 2 -> 1`으로 탐색해서 가져오도록 함.
+- `member` 엔티티에는 가장 구체적인 주소의 id만 저장함. (`depth2` or `depth3`)
+- `parent_id`를 통해 `depth 3 -> 2 -> 1`으로 탐색해서 가져오도록 함. (번거롭다...)
 - `detail_address`는 없는 상태.
 
 ![result1](result/result1.png)
