@@ -1,0 +1,9 @@
+-- H2 DB 모든 테이블 지우기
+--drop all objects;
+
+-- 모든 테이블 조회
+SELECT * FROM MEMBER;
+SELECT * FROM ADDRESS_LV1;
+SELECT * FROM ADDRESS_LV2;
+SELECT * FROM ADDRESS_LV3;
+

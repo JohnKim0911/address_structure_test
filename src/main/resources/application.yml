@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/address
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create #테이블 재생성
+#      ddl-auto: update #테이블 유지
+    properties:
+      hibernate:
+        format_sql: true
+
+# 로그 색상나오게 출력
+  output:
+    ansi:
+      enabled: always
+
+logging.level:
+  org.hibernate.SQL: debug
+
