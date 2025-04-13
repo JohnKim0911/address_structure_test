@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "address_lv3")
+@Table(name = "address_lv3", uniqueConstraints = @UniqueConstraint(columnNames = {"address_lv2_id", "name"}))
 public class AddressLv3 {
 
     @Id

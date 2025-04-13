@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "address_lv2")
+@Table(name = "address_lv2", uniqueConstraints = @UniqueConstraint(columnNames = {"address_lv1_id", "name"}))
 public class AddressLv2 {
 
     @Id

@@ -18,44 +18,15 @@ public class Member {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "addressLv1_id")
-    private AddressLv1 addressLv1;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "addressLv2_id")
-    private AddressLv2 addressLv2;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "addressLv3_id")
-    private AddressLv3 addressLv3;
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     private String detailAddress;
 
-    public Member(String name, AddressLv1 addressLv1, AddressLv2 addressLv2, AddressLv3 addressLv3, String detailAddress) {
+    public Member(String name, Address address, String detailAddress) {
         this.name = name;
-        this.addressLv1 = addressLv1;
-        this.addressLv2 = addressLv2;
-        this.addressLv3 = addressLv3;
+        this.address = address;
         this.detailAddress = detailAddress;
-    }
-
-    public String getFullAddress() {
-        StringBuilder sb = new StringBuilder();
-
-        if (addressLv1 != null) {
-            sb.append(addressLv1.getName()).append(" ");
-        }
-        if (addressLv2 != null) {
-            sb.append(addressLv2.getName()).append(" ");
-        }
-        if (addressLv3 != null) {
-            sb.append(addressLv3.getName()).append(" ");
-        }
-        if (detailAddress != null) {
-            sb.append(detailAddress);
-        }
-
-        return sb.toString().trim();
     }
 
 }

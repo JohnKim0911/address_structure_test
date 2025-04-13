@@ -19,6 +19,7 @@ public class AddressLv1 {
     @Column(name = "address_lv1_id")
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)

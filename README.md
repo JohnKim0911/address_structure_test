@@ -2,6 +2,9 @@
 
 토이프로젝트에 사용할 주소 구조, 어떻게 하면 좋을지 테스트중.
 
+- 사용할 데이터: [addresses.json](src/main/resources/addresses.json)
+  - 참고: https://ko.wikipedia.org/wiki/대한민국의_행정_구역
+
 - 지역별로 클럽을 등록/조회 등을 할 수 있어야 해서 직접 주소를 db에서 관리하기로 함.
 - level 별로 조회가 가능해야 하고 (`select-box`에서 사용), 전체 full주소가 필요한 경우도 있다.
 - level은 최소 2개 ~ 최대 3개까지 될 수 있다.
@@ -80,13 +83,90 @@ left join address_lv3 lv3 on m.address_lv3_id = lv3.address_lv3_id;
 
 ![result3](result/result3_2.png)
 
+<details>
+<summary>SQL (member 없이 주소만.)</summary>
 
-### 4. 계층별 table 분리 & 통합 테이블 구조
+```
+-- 주소 db 조인. (한눈에 전체보기)
+SELECT
+    lv1.name AS lv1,
+    lv2.name AS lv2,
+    lv3.name AS lv3,
+    lv1.address_lv1_id AS lv1_id,
+    lv2.address_lv2_id AS lv2_id,
+    lv3.address_lv3_id AS lv3_id
+FROM
+    address_lv1 lv1
+JOIN
+    address_lv2 lv2 ON lv2.address_lv1_id = lv1.address_lv1_id
+LEFT JOIN
+    address_lv3 lv3 ON lv3.address_lv2_id = lv2.address_lv2_id
+```
+</details>
 
-계층별로 테이블을 분리하고, `lv1, lv2, lv3`의 계층이 맞도록 하나의 통합 테이블에 보관한다.
+## 4. 계층별 table 분리 & 통합 테이블 구조
 
-- 랜덤 주소가 필요할때 그냥 통합테이블에서 랜덤으로 하나 가져오면 된다.
+계층별로 테이블을 분리하고, `lv1, lv2, lv3`의 계층이 유효한 주소를 하나의 통합 테이블에 보관한다.
+
+- 랜덤 주소가 필요할때 그냥 통합테이블(`Address`)에서 랜덤으로 하나 가져오면 된다.
+
+### Address 테이블
+
+![result4](result/result4.png)
+
+<details>
+<summary>주소 조회 SQL. (실제 주소명은 join해서 가져옴.)</summary>
+
+```
+-- 주소 조회 (join해서 실제 주소이름 볼 수 있도록)
+SELECT
+  a.address_id,
+  a.address_lv1_id AS lv1_id,
+  a.address_lv2_id AS lv2_id,
+  a.address_lv3_id AS lv3_id,
+  lv1.name AS lv1_name,
+  lv2.name AS lv2_name,
+  lv3.name AS lv3_name
+FROM address a
+LEFT JOIN address_lv1 lv1 ON a.address_lv1_id= lv1.address_lv1_id
+LEFT JOIN address_lv2 lv2 ON a.address_lv2_id= lv2.address_lv2_id
+LEFT JOIN address_lv3 lv3 ON a.address_lv3_id= lv3.address_lv3_id;
+```
+</details>
+
+![result4_2](result/result4_2.png)
+
+![result4_3](result/result4_3.png)
+
+### member 테이블
+
+![result4_4](result/result4_4.png)
+
+<details>
+<summary>member 조회 SQL</summary>
+
+```
+-- 주소 조회 (join해서 실제 주소이름 볼 수 있도록)
+SELECT
+  a.address_id,
+  a.address_lv1_id AS lv1_id,
+  a.address_lv2_id AS lv2_id,
+  a.address_lv3_id AS lv3_id,
+  lv1.name AS lv1_name,
+  lv2.name AS lv2_name,
+  lv3.name AS lv3_name
+FROM address a
+LEFT JOIN address_lv1 lv1 ON a.address_lv1_id= lv1.address_lv1_id
+LEFT JOIN address_lv2 lv2 ON a.address_lv2_id= lv2.address_lv2_id
+LEFT JOIN address_lv3 lv3 ON a.address_lv3_id= lv3.address_lv3_id;
+```
+</details>
+
+![result4_5](result/result4_5.png)
 
 
 ## 결론
 
+마지막 4번을 토이프로젝트에 적용해야겠다.
+
+https://github.com/JohnKim0911/badminton_club
