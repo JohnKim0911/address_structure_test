@@ -21,7 +21,23 @@
 
 > 위 이미지는 기존 토이프로젝트서 진행하던 것.
 
-## 2. 계층별 table 분리 - `full_address` 포함
+## 2. Single Flat Table 구조
+
+1개에 테이블에 모든 주소 넣어서 관리함.
+
+- `address`에 3개 계층을 문자열 그대로 한 줄에 저장.
+- `address_id` 별로 조회는 쉽지만, 데이터 중복 발생.
+
+| address_id | address_lv1 | address_lv2 | address_lv3 | 
+|------------|-------------|-------------|-------------|
+| 1          | 서울특별시       | 종로구         |             | 
+| 2          | 서울특별시       | 중구          |             | 
+| 3          | 서울특별시       | 용산구         |             | 
+| 4          | 경기도         | 수원시         | 장안구         | 
+| 5          | 경기도         | 성남시         | 수정구         | 
+| 6          | 경기도         | 성남시         | 분당구         | 
+
+## 3. 계층별 table 분리 - `full_address` 포함
 
 `member`에 `full_address`를 포함함.
 
@@ -29,7 +45,7 @@
 
 ![result2](result/result2.png)
 
-## 3. 계층별 table 분리 - `full_address` 제외
+## 4. 계층별 table 분리 - `full_address` 제외
 
 `member`에 `full_address`를 제외함.
 
@@ -80,4 +96,4 @@ public String getFullAddress() {
 
 ## 결론
 
-3번째 방법으로 진행해야겠다.
+4번째 방법으로 진행해야겠다.
