@@ -37,7 +37,11 @@
 | 5          | 경기도         | 성남시         | 수정구         | 
 | 6          | 경기도         | 성남시         | 분당구         | 
 
-## 3. 계층별 table 분리 - `full_address` 포함
+## 3. 계층별 table 분리 구조
+
+3개 계층을 각각의 table로 분리함.
+
+### 3-1. `full_address` 포함
 
 `member`에 `full_address`를 포함함.
 
@@ -45,17 +49,16 @@
 
 ![result2](result/result2.png)
 
-## 4. 계층별 table 분리 - `full_address` 제외
+### 3-2. `full_address` 제외
 
 `member`에 `full_address`를 제외함.
 
 - `full_address`는 아래 sql 처럼 `join`을 해서 db에서 보거나, (번거롭다)
-- `member` 엔티티 내의 메서드(`getFullAddress()`)로 얻어올 수 있다. (편하다)
+- 자바단에서 `member` 엔티티 내의 메서드로 얻어올 수 있다. (편하다)
+- 랜덤 주소가 필요할 때, `lv1, lv2, lv3`의 연관관계를 한번 더 생각해야 한다.
 
-
-![result3](result/result3.png)
-
-![result3](result/result3_2.png)
+<details>
+<summary>SQL</summary>
 
 ```
 select 
@@ -70,30 +73,20 @@ left join address_lv1 lv1 on m.address_lv1_id = lv1.address_lv1_id
 left join address_lv2 lv2 on m.address_lv2_id = lv2.address_lv2_id
 left join address_lv3 lv3 on m.address_lv3_id = lv3.address_lv3_id;
 ```
+</details>
 
-```java
-// member 엔티티
-public String getFullAddress() {
-    StringBuilder sb = new StringBuilder();
 
-    if (addressLv1 != null) {
-        sb.append(addressLv1.getName()).append(" ");
-    }
-    if (addressLv2 != null) {
-        sb.append(addressLv2.getName()).append(" ");
-    }
-    if (addressLv3 != null) {
-        sb.append(addressLv3.getName()).append(" ");
-    }
-    if (detailAddress != null) {
-        sb.append(detailAddress);
-    }
+![result3](result/result3.png)
 
-    return sb.toString().trim(); //서울특별시 중구 xx로 어딘가, 경기도 수원시 장안구 xx로 어딘가
-    
-}
-```
+![result3](result/result3_2.png)
+
+
+### 4. 계층별 table 분리 & 통합 테이블 구조
+
+계층별로 테이블을 분리하고, `lv1, lv2, lv3`의 계층이 맞도록 하나의 통합 테이블에 보관한다.
+
+- 랜덤 주소가 필요할때 그냥 통합테이블에서 랜덤으로 하나 가져오면 된다.
+
 
 ## 결론
 
-4번째 방법으로 진행해야겠다.

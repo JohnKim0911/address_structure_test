@@ -16,7 +16,7 @@ public class AddressLv1 {
 
     @Id
     @GeneratedValue
-    @Column(name = "addressLv1_id")
+    @Column(name = "address_lv1_id")
     private Long id;
 
     private String name;

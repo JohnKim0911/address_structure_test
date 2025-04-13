@@ -17,14 +17,14 @@ public class AddressLv2 {
 
     @Id
     @GeneratedValue
-    @Column(name = "addressLv2_id")
+    @Column(name = "address_lv2_id")
     private Long id;
 
     private String name;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "addressLv1_id")
+    @JoinColumn(name = "address_lv1_id")
     private AddressLv1 parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
